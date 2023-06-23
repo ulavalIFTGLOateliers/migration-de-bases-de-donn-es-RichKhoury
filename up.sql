@@ -2,25 +2,32 @@ DROP TABLE IF EXISTS Album;
 DROP TABLE IF EXISTS Label;
 DROP TABLE IF EXISTS Concert;
 DROP TABLE IF EXISTS Tour;
-DROP TABLE IF EXISTS Band;
 DROP TABLE IF EXISTS Musician;
 DROP TABLE IF EXISTS Singer;
+DROP TABLE IF EXISTS Band;
 
-CREATE TABLE IF NOT EXISTS Singer (singerName varchar(50), firstName varchar(50), lastName varchar(50), age int, PRIMARY KEY(singerName));
-CREATE TABLE IF NOT EXISTS Label (labelName varchar(50), creation YEAR, genre ENUM("rock", "rap", "pop", "classical", "jazz"), PRIMARY KEY (labelName));
-CREATE TABLE IF NOT EXISTS Album (  albumName varchar(50),
-                                    singerName varchar(50),
-                                    year YEAR,
-                                    labelName varchar(50),
-                                    PRIMARY KEY (albumName),
-                                    FOREIGN KEY (singerName) REFERENCES Singer (singerName),
-                                    FOREIGN KEY (labelName) REFERENCES Label (labelName));
+CREATE TABLE IF NOT EXISTS Singer (     singerName varchar(50),
+                                        firstName varchar(50),
+                                        lastName varchar(50),
+                                        age int,
+                                        PRIMARY KEY(singerName));
+CREATE TABLE IF NOT EXISTS Label (      labelName varchar(50),
+                                        creation YEAR,
+                                        genre ENUM("rock", "rap", "pop", "classical", "jazz"),
+                                        PRIMARY KEY (labelName));
+CREATE TABLE IF NOT EXISTS Album (      albumName varchar(50),
+                                        singerName varchar(50),
+                                        year YEAR,
+                                        labelName varchar(50),
+                                        PRIMARY KEY (albumName),
+                                        CONSTRAINT FK_A_singerName FOREIGN KEY (singerName) REFERENCES Singer (singerName),
+                                        FOREIGN KEY (labelName) REFERENCES Label (labelName));
 CREATE TABLE IF NOT EXISTS Concert (    concertId int,
                                         singerName varchar(50),
                                         date DATE,
                                         city varchar(50),
                                         PRIMARY KEY (concertId),
-                                        FOREIGN KEY (singerName) REFERENCES Singer (singerName));
+                                        CONSTRAINT FK_C_singerName FOREIGN KEY (singerName) REFERENCES Singer (singerName));
 
 
 INSERT INTO Singer VALUES ("Alina", "Darcy", "Boles", 32), ("Mysterio","Jessie","Chancey",23), ("Rainbow", "Sarah", "Derrick", 47), ("Luna", "Emily", "Seibold", 31);
