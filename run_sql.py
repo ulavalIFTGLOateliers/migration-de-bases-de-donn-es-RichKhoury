@@ -1,7 +1,7 @@
 import argparse
 
-from database.database import Database
-from database.sql_utils import run_sql_file
+from database import Database
+from sql_utils import run_sql_file
 
 
 def parse_args():

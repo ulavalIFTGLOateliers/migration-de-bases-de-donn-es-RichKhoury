@@ -5,11 +5,48 @@
     <title>Atelier BD</title>
 
     <script src="../static/app.js"></script>
+    <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
     <h1>
         Atelier sur la migration de BD
     </h1>
+
+    <h2>
+        Contenu de la BD: <button onClick="window.location.reload();">Rafraîchir</button>
+    </h2>
+
+    <div id="db-content">
+
+
+        {% for table in tables %}
+
+            <span>
+                <h3> Table name: {{ table.name }} </h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            {% for column in table.columns %}
+                                <th>{{ column }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in table.entries %}
+                            <tr>
+                                {% for value in entry %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </span>
+
+        {% endfor %}
+
+    </div>
 
     <h2>
         Créer la BD pour la première fois
