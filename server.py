@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, Response
+from flask import Flask, render_template, Response
 from database import Database
 
 app = Flask(__name__)
@@ -20,8 +20,37 @@ def index():
 
         tables.append(table_dict)
 
-
     return render_template("index.html", tables=tables)
+
+
+@app.route("/migrate", methods=["POST"])
+def migrate():
+    try:
+        database.migrate()
+        return Response(status=200)
+    except Exception as e:
+        print(e)
+        return Response(status=406)
+
+
+@app.route("/up", methods=["POST"])
+def up():
+    try:
+        database.up()
+        return Response(status=200)
+    except Exception as e:
+        print(e)
+        return Response(status=406)
+
+
+@app.route("/rollback", methods=["POST"])
+def rollback():
+    try:
+        database.rollback()
+        return Response(status=200)
+    except Exception as e:
+        print(e)
+        return Response(status=406)
 
 
 if __name__ == "__main__":

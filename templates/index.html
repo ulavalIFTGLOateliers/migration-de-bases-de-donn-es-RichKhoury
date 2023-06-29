@@ -18,49 +18,58 @@
 
     <div id="db-content">
 
+        <table>
+            <tbody>
+                <tr>
+                    {% for table in tables %}
+                        <td>
+                            <h3> Table name: {{ table.name }} </h3>
 
-        {% for table in tables %}
+                            <table>
+                                <thead>
+                                    <tr>
+                                        {% for column in table.columns %}
+                                            <th class="sql-table">{{ column }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for entry in table.entries %}
+                                        <tr>
+                                            {% for value in entry %}
+                                                <td class="sql-table">{{ value }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </td>
 
-            <span>
-                <h3> Table name: {{ table.name }} </h3>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
 
-                <table>
-                    <thead>
-                        <tr>
-                            {% for column in table.columns %}
-                                <th>{{ column }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for entry in table.entries %}
-                            <tr>
-                                {% for value in entry %}
-                                    <td>{{ value }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </span>
 
-        {% endfor %}
 
     </div>
 
     <h2>
-        Créer la BD pour la première fois
-        <button>Créer</button>
+        (Re)Créer la BD
+        <button onclick="up()">Créer</button>
+        <span id="up-status"></span>
     </h2>
 
     <h2>
         Migrer la BD
-        <button>Migrer</button>
+        <button onclick="migrate()">Migrer</button>
+        <span id="migrate-status"></span>
     </h2>
 
     <h2>
         Faire une retour arrière (rollback) de la migration
-        <button>Migration arrière</button>
+        <button onclick="rollback()">Migration arrière</button>
+        <span id="rollback-status"></span>
     </h2>
 </body>
 </html>

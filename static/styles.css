@@ -1,3 +1,7 @@
-th, td {
+.sql-table {
     border: 2px solid #96D4D4;
+}
+
+td {
+  vertical-align: top;
 }
