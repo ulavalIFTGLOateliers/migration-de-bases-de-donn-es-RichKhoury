@@ -26,7 +26,7 @@ def index():
 @app.route("/migrate", methods=["POST"])
 def migrate():
     try:
-        database.migrate()
+        database.push_migration()
         return Response(status=200)
     except Exception as e:
         print(e)

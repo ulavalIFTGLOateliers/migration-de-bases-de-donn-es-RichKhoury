@@ -18,6 +18,8 @@ class Database:
 
         self.cursor = self.open_sql_connection()
 
+        self.migration_counter = 0
+
     def open_sql_connection(self):
         connection = pymysql.connect(
             host=self.host,
@@ -32,15 +34,25 @@ class Database:
 
         return cursor
 
+    def push_migration(self):
+        migration_to_push = self.migration_counter + 1
+        migration_file = f"db_scripts/migrate_{migration_to_push}.sql"
+
+        run_sql_file(self.cursor, migration_file)
+        self.migration_counter += 1
+
+    def rollback(self):
+        if self.migration_counter < 1:
+            raise ValueError("There are no rollbacks in the rollback stack.")
+
+        rollback_file = f"db_scripts/rollback_{self.migration_counter}.sql"
+
+        run_sql_file(self.cursor, rollback_file)
+        self.migration_counter -= 1
+
     def up(self):
         self.drop()
         run_sql_file(self.cursor, "db_scripts/up.sql")
-
-    def migrate(self):
-        run_sql_file(self.cursor, "db_scripts/migrate.sql")
-
-    def rollback(self):
-        run_sql_file(self.cursor, "db_scripts/rollback.sql")
 
     def drop(self):
         run_sql_file(self.cursor, "db_scripts/drop.sql")
