@@ -56,6 +56,7 @@ class Database:
 
     def drop(self):
         run_sql_file(self.cursor, "db_scripts/drop.sql")
+        self.migration_counter = 0
 
     def get_table_names(self):
         req = f"SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE' AND table_schema = '{self.database}';"

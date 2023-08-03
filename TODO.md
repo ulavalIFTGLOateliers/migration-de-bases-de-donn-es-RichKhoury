@@ -1,2 +1,7 @@
 - Enonce
-- Documentation des schemas
+- Documentation des schemas --  DONE
+- Documentation des cles apres chaque migration + expliquer comment voir les cles
+- Correction automatique
+    - classe Grader
+    - cloud DB
+    - wget fichier de correction + fichier .env
