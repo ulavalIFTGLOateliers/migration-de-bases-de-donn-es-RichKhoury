@@ -1,0 +1,34 @@
+{
+    "initial_state": {
+        "tables": {
+            "album": {
+                "values": [
+                    ["Concertos", "Luna", 2009, "Four Seasons"],
+                    ["Second Mystery", "Mysterio", 2021, "World Music"],
+                    ["World of Mysteries", "Mysterio", 2019, "Dark Matter"]
+                ],
+                "columns": ["albumName", "singerName", "year", "labelName"]
+            },
+            "label": {
+                "values": [
+                    ["Dark Matter", 2015, "rock"],
+                    ["Four Seasons", 1999, "classical"],
+                    ["World Music", 2002, "pop"]
+                ],
+                "columns": ["labelName", "creation", "genre"]
+            },
+            "singer": {
+                "values": [
+                    ["Alina", "Darcy", "Boles", 32],
+                    ["Luna", "Emily", "Seibold", 31],
+                    ["Mysterio", "Jessie", "Chancey", 23],
+                    ["Rainbow", "Sarah", "Derrick", 47]
+                ],
+                "columns": ["singerName", "firstName", "lastName", "age"]
+            }
+        },
+        "keys": {
+
+        }
+    }
+}

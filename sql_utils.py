@@ -1,3 +1,6 @@
+import os
+
+
 def parse_sql(filename):
     """
     Parses a .sql file and returns statements in a list of strings
@@ -5,7 +8,12 @@ def parse_sql(filename):
     :param filename: the .sql file to be parsed
     :return: list of statements
     """
-    data = open(filename, 'r').readlines()
+
+    current_dir = os.path.dirname(__file__)
+    abs_file_path = os.path.join(current_dir, filename)
+
+
+    data = open(abs_file_path, 'r').readlines()
     stmts = []
     DELIMITER = ';'
     stmt = ''
@@ -46,3 +54,9 @@ def run_sql_file(cursor, filename):
 
     for statement in sql_statements:
         cursor.execute(statement)
+
+
+def run_select(cursor, request):
+    cursor.execute(request)
+
+    return [list(x) for x in cursor.fetchall()]

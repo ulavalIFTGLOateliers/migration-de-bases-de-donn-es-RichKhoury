@@ -7,7 +7,7 @@ from sql_utils import run_sql_file
 class Database:
     def __init__(self):
         """
-            Complétez les lignes 14 à 18 afin de récupérer les valeurs des variables d'environnement situées dans votre fichier .env
+            Complétez les lignes 13 à 17 afin de récupérer les valeurs des variables d'environnement situées dans votre fichier .env
         """
 
         self.host = config("HOST")
@@ -16,12 +16,12 @@ class Database:
         self.user = config("USER")
         self.password = config("PASSWORD")
 
-        self.cursor = self.open_sql_connection()
+        self._open_sql_connection()
 
         self.migration_counter = 0
 
-    def open_sql_connection(self):
-        connection = pymysql.connect(
+    def _open_sql_connection(self):
+        self.connection = pymysql.connect(
             host=self.host,
             port=self.port,
             user=self.user,
@@ -30,9 +30,7 @@ class Database:
             autocommit=True
         )
 
-        cursor = connection.cursor()
-
-        return cursor
+        self.cursor = self.connection.cursor()
 
     def push_migration(self):
         migration_to_push = self.migration_counter + 1
@@ -79,3 +77,9 @@ class Database:
         self.cursor.execute(req)
 
         return list(self.cursor.fetchall())
+
+    def get_cursor(self):
+        return self.cursor
+
+    def get_connection(self):
+        return self.connection

@@ -5,3 +5,7 @@
     - classe Grader
     - cloud DB
     - wget fichier de correction + fichier .env
+
+
+Optional:
+- Have table contents and schemas in a markdown file or JSON instead of hard coded in grader class?
