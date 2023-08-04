@@ -136,6 +136,11 @@ class Grader:
         self.target_states = load_db_states_from_json()
 
     def run(self):
+        """
+        Logique de correction.
+        Roules les tests dans l'ordre d'exécution classique.
+        Ne devrait pas être modifié, sauf si d'autres étapes s'ajoutent
+        """
         self._run_section_tests("up")
         if not self.grading_template["up"]["connexion"]["passed"]:
             return
@@ -166,6 +171,10 @@ class Grader:
 
     @failable
     def _up(self):
+        """
+        Lance la BD de l'étudiant, puis effectue un ping.
+        :return: True si la connexion fonctionne, False sinon
+        """
         self.database = Database()
         self.cursor = self.database.get_cursor()
         self.database.get_connection().ping(reconnect=False)
@@ -174,22 +183,38 @@ class Grader:
 
     @failable
     def _migration_1(self):
+        """
+        Effectue la première migration
+        :return: True si la migration ne lance pas d'erreur, False sinon
+        """
         self.database.push_migration()
         return True
 
     @failable
     def _rollback_1(self):
+        """
+        Effectue la première migration arrière
+        :return: True si le rollback ne lance pas d'erreur, False sinon
+        """
         self.database.rollback()
         return True
 
     @failable
     def _migration_2(self):
+        """
+        Effectue la deuxième migration
+        :return: True si la migration ne lance pas d'erreur, False sinon
+        """
         for i in range(self.database.get_migration_stack_size(), 2):
             self.database.push_migration()
         return True
 
     @failable
     def _rollback_2(self):
+        """
+        Effectue la deuxième migration arrière
+        :return: True si la migration ne lance pas d'erreur, False sinon
+        """
         self.database.rollback()
         return True
 
