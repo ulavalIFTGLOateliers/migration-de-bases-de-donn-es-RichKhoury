@@ -1,20 +1,19 @@
 import pymysql
-from decouple import config
 
 from sql_utils import run_sql_file
 
 
 class Database:
-    def __init__(self):
+    def __init__(self, host=None, port=None, database=None, user=None, password=None):
         """
             Complétez les lignes 13 à 17 afin de récupérer les valeurs des variables d'environnement situées dans votre fichier .env
         """
 
-        self.host = config("HOST")
-        self.port = config("PORT", default=3306, cast=int)
-        self.database = config("DATABASE")
-        self.user = config("USER")
-        self.password = config("PASSWORD")
+        self.host =
+        self.port =
+        self.database =
+        self.user =
+        self.password =
 
         self._open_sql_connection()
 

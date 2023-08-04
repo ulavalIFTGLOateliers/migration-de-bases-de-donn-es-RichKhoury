@@ -12,7 +12,6 @@ def parse_sql(filename):
     current_dir = os.path.dirname(__file__)
     abs_file_path = os.path.join(current_dir, filename)
 
-
     data = open(abs_file_path, 'r').readlines()
     stmts = []
     DELIMITER = ';'

@@ -1,5 +1,6 @@
-from database import Database
 from collections import OrderedDict
+
+from database import Database
 from grading_utils import failable, load_db_states_from_json
 
 
