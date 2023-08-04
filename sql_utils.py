@@ -54,9 +54,3 @@ def run_sql_file(cursor, filename):
 
     for statement in sql_statements:
         cursor.execute(statement)
-
-
-def run_select(cursor, request):
-    cursor.execute(request)
-
-    return [list(x) for x in cursor.fetchall()]

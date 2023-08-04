@@ -1,7 +1,6 @@
 from database import Database
 from collections import OrderedDict
-from grading_utils import failable
-from sql_utils import run_select
+from grading_utils import failable, load_db_states_from_json
 
 
 class Grader:
@@ -24,7 +23,7 @@ class Grader:
                     "[nom du test]": {
                         "callable": callable,    # fonction de test retournant un booléen
                         "points": int,           # nombre de points
-                        "passed": Bool           # statut de réussite du test
+                        "passed": Bool           # statut de réussite du test | False par défaut
                     }
         """
 
@@ -45,27 +44,17 @@ class Grader:
             },
             "after_migration_1": {
                 "schema des tables": {
-                    "callable": self._check_schema_after_migration_1,
+                    "callable": self._check_state_schema("after_migration_1"),
                     "points": 1,
                     "passed": False
                 },
-                "contenu de album": {
-                    "callable": self._check_album_tuples_after_migration_1,
+                "contenu des tables": {
+                    "callable": self._check_state_content("after_migration_1"),
                     "points": 1,
                     "passed": False
                 },
-                "contenu de band": {
-                    "callable": self._check_band_tuples_after_migration_1,
-                    "points": 1,
-                    "passed": False
-                },
-                "contenu de label": {
-                    "callable": self._check_label_tuples_after_migration_1,
-                    "points": 1,
-                    "passed": False
-                },
-                "contenu de musician": {
-                    "callable": self._check_musician_tuples_after_migration_1,
+                "clés": {
+                    "callable": self._check_state_keys("after_migration_1"),
                     "points": 1,
                     "passed": False
                 }
@@ -78,7 +67,21 @@ class Grader:
                 }
             },
             "after_rollback_1": {
-
+                "schema des tables": {
+                    "callable": self._check_state_schema("initial_state"),
+                    "points": 1,
+                    "passed": False
+                },
+                "contenu des tables": {
+                    "callable": self._check_state_content("initial_state"),
+                    "points": 1,
+                    "passed": False
+                },
+                "clés": {
+                    "callable": self._check_state_keys("initial_state"),
+                    "points": 1,
+                    "passed": False
+                }
             },
             "migration_2": {
                 "migration 2": {
@@ -88,7 +91,21 @@ class Grader:
                 }
             },
             "after_migration_2": {
-
+                "schema des tables": {
+                    "callable": self._check_state_schema("after_migration_2"),
+                    "points": 1,
+                    "passed": False
+                },
+                "contenu des tables": {
+                    "callable": self._check_state_content("after_migration_2"),
+                    "points": 1,
+                    "passed": False
+                },
+                "clés": {
+                    "callable": self._check_state_keys("after_migration_2"),
+                    "points": 1,
+                    "passed": False
+                }
             },
             "rollback_2": {
                 "rollback 2": {
@@ -98,9 +115,25 @@ class Grader:
                 }
             },
             "after_rollback_2": {
-
+                "schema des tables": {
+                    "callable": self._check_state_schema("after_migration_1"),
+                    "points": 1,
+                    "passed": False
+                },
+                "contenu des tables": {
+                    "callable": self._check_state_content("after_migration_1"),
+                    "points": 1,
+                    "passed": False
+                },
+                "clés": {
+                    "callable": self._check_state_keys("after_migration_1"),
+                    "points": 1,
+                    "passed": False
+                }
             }
         })
+
+        self.target_states = load_db_states_from_json()
 
     def run(self):
         self._run_section_tests("up")
@@ -113,12 +146,23 @@ class Grader:
 
         self._run_section_tests("after_migration_1")
 
-    def generate_report(self):
-        pass
+        self._run_section_tests("rollback_1")
+        if not self.grading_template["rollback_1"]["rollback 1"]["passed"]:
+            return
 
-    def _run_section_tests(self, section):
-        for test_attributes in self.grading_template[section].values():
-            test_attributes["passed"] = test_attributes["callable"]()
+        self._run_section_tests("after_rollback_1")
+
+        self._run_section_tests("migration_2")
+        if not self.grading_template["migration_2"]["migration 2"]["passed"]:
+            return
+
+        self._run_section_tests("after_migration_2")
+
+        self._run_section_tests("rollback_2")
+        if not self.grading_template["rollback_2"]["rollback 2"]["passed"]:
+            return
+
+        self._run_section_tests("after_rollback_2")
 
     @failable
     def _up(self):
@@ -134,90 +178,99 @@ class Grader:
         return True
 
     @failable
-    def _check_schema_after_migration_1(self):
-        target_table_names = ["album", "label", "band", "musician"]
-        actual_table_names = self.database.get_table_names()
-        if sorted(target_table_names) != sorted(actual_table_names):
-            return False
-
-        target_album_column_names = ["albumName", "singerName", "year", "labelName"]
-        actual_album_column_names = self.database.get_table_column_names("album")
-        if sorted(target_album_column_names) != sorted(actual_album_column_names):
-            return False
-
-        target_band_column_names = ["bandName", "creation", "genre"]
-        actual_band_column_names = self.database.get_table_column_names("band")
-        if sorted(target_band_column_names) != sorted(actual_band_column_names):
-            return False
-
-        target_label_column_names = ["labelName", "creation", "genre"]
-        actual_label_column_names = self.database.get_table_column_names("label")
-        if sorted(target_label_column_names) != sorted(actual_label_column_names):
-            return False
-
-        target_musician_column_names = ["musicianName", "firstName", "lastName", "age", "role", "bandName"]
-        actual_musician_column_names = self.database.get_table_column_names("musician")
-        if sorted(target_musician_column_names) != sorted(actual_musician_column_names):
-            return False
-
+    def _rollback_1(self):
+        self.database.rollback()
         return True
 
     @failable
-    def _check_album_tuples_after_migration_1(self):
-        target_tuples = [("Concertos", "Luna", 2009, "Four Seasons"),
-                         ("Second Mystery", "Mysterio", 2021, "World Music"),
-                         ("World of Mysteries", "Mysterio", 2019, "Dark Matter")]
-        actual_tuples = run_select(self.cursor, "SELECT * FROM album;")
-        return sorted(target_tuples) == sorted(actual_tuples)
-
-    @failable
-    def _check_band_tuples_after_migration_1(self):
-        target_tuples = [("Crazy Duo", 2015, "rock"),
-                         ("Mysterio", 2019, "pop"),
-                         ("Luna", 2009, "classical")]
-        actual_tuples = run_select(self.cursor, "SELECT * FROM band;")
-        return sorted(target_tuples) == sorted(actual_tuples)
-
-    @failable
-    def _check_label_tuples_after_migration_1(self):
-        target_tuples = [("Dark Matter", 2015, "rock"),
-                         ("Four Seasons", 1999, "classical"),
-                         ("World Music", 2002, "pop")]
-        actual_tuples = run_select(self.cursor, "SELECT * FROM label;")
-        return sorted(target_tuples) == sorted(actual_tuples)
-
-    @failable
-    def _check_musician_tuples_after_migration_1(self):
-        target_tuples = [("Alina", "Darcy", "Boles", 32, "vocals", "Crazy Duo"),
-                         ("Luna", "Emily", "Seibold", 31, "piano", "Luna"),
-                         ("Mysterio", "Jessie", "Chancey", 23, "guitar", "Mysterio"),
-                         ("Rainbow", "Sarah", "Derrick", 47, "percussion", "Crazy Duo")]
-        actual_tuples = run_select(self.cursor, "SELECT * FROM musician;")
-        return sorted(target_tuples) == sorted(actual_tuples)
-
-    def _rollback_1(self):
-        pass
-
     def _migration_2(self):
-        pass
+        for i in range(self.database.get_migration_stack_size(), 2):
+            self.database.push_migration()
+        return True
 
+    @failable
     def _rollback_2(self):
-        pass
+        self.database.rollback()
+        return True
 
-    def test(self):
-        return self.grading_template
+    def _run_section_tests(self, section):
+        for test_attributes in self.grading_template[section].values():
+            test_attributes["passed"] = test_attributes["callable"]()
 
+    def _check_state_schema(self, state):
+        @failable
+        def wrapper():
+            target_tables_schema = self.target_states[state]["tables"]
+            target_table_names = target_tables_schema.keys()
+            actual_table_names = self.database.get_table_names()
 
+            if sorted(target_table_names) != sorted(actual_table_names):
+                return False
 
+            for target_table in target_table_names:
+                target_table_columns = target_tables_schema[target_table]["columns"]
+                actual_table_columns = self.database.get_table_column_names(target_table)
+                if sorted(target_table_columns) != sorted(actual_table_columns):
+                    return False
 
-# class MySQLGrader(Grader):
-#     def __init__(self):
-#         super().__init__()
-#
-#     def migration_1(self):
-#         self.database.migrate1()
+            return True
 
+        return wrapper
 
+    def _check_state_content(self, state):
+        @failable
+        def wrapper():
+            for target_table_name, target_table_info in self.target_states[state]["tables"].items():
+                target_table_tuples = target_table_info["values"]
+                actual_table_tuples = self.database.get_table_data(target_table_name)
+                if sorted(target_table_tuples) != sorted(actual_table_tuples):
+                    return False
+
+            return True
+
+        return wrapper
+
+    def _check_state_keys(self, state):
+        @failable
+        def wrapper():
+            for target_table_name, target_table_keys in self.target_states[state]["keys"].items():
+                # Primary key
+                target_table_primary_key = target_table_keys["primary"]["column_name"]
+                actual_table_primary_key = self.database.get_table_primary_key(target_table_name)
+                if not actual_table_primary_key or target_table_primary_key != actual_table_primary_key[0]:
+                    return False
+
+                # Foreign keys
+                if "foreign" not in target_table_keys:
+                    continue
+                target_table_foreign_keys = target_table_keys["foreign"]
+                actual_table_foreign_keys = self.database.get_table_foreign_keys(target_table_name)
+                if [i for i in target_table_foreign_keys if i not in actual_table_foreign_keys]:
+                    return False
+
+            return True
+
+        return wrapper
+
+    def generate_report(self):
+        total_student_marks = 0
+        total_test_marks = 0
+
+        for state, tests in self.grading_template.items():
+            print("=================================================")
+            print(f"Tests de l'état {state}:")
+            print("=================================================")
+            for test_name, test_status in tests.items():
+                test_marks = test_status["points"]
+                student_marks = test_marks if test_status["passed"] else 0
+
+                total_student_marks += student_marks
+                total_test_marks += test_marks
+
+                print(f"    Nom du test:{test_name}")
+                print(f"    Points: {student_marks} / {test_marks}")
+                print("    ---")
+        print(f"Total de points: {total_student_marks} / {total_test_marks}")
 
 
 if __name__ == '__main__':
@@ -225,4 +278,4 @@ if __name__ == '__main__':
 
     grader.run()
 
-    print(grader.test())
+    grader.generate_report()

@@ -76,10 +76,33 @@ class Database:
         req = f"SELECT * FROM {table};"
         self.cursor.execute(req)
 
-        return list(self.cursor.fetchall())
+        return [list(x) for x in self.cursor.fetchall()]
+
+    def get_table_primary_key(self, table):
+        req = f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = '{self.database}' AND TABLE_NAME = '{table}' AND CONSTRAINT_NAME = 'PRIMARY';"
+        self.cursor.execute(req)
+
+        return self.cursor.fetchone()
+
+    def get_table_foreign_keys(self, table):
+        req = f"SELECT COLUMN_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = '{self.database}' AND TABLE_NAME = '{table}' AND CONSTRAINT_NAME != 'PRIMARY';"
+        self.cursor.execute(req)
+
+        foreign_keys = []
+        for foreign_key in self.cursor.fetchall():
+            foreign_keys.append({
+                "column_name": foreign_key[0],
+                "referenced_table_name": foreign_key[1],
+                "referenced_column_name": foreign_key[2]
+            })
+
+        return foreign_keys
 
     def get_cursor(self):
         return self.cursor
 
     def get_connection(self):
         return self.connection
+
+    def get_migration_stack_size(self):
+        return self.migration_counter
