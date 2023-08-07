@@ -17,11 +17,11 @@ class Database:
 
         load_dotenv(dotenv_path)
 
-        self.host =
-        self.port =
-        self.database =
-        self.user =
-        self.password =
+        self.host = os.environ.get("HOST")
+        self.port = int(os.environ.get("PORT"))
+        self.database = os.environ.get("DATABASE")
+        self.user = os.environ.get("USER")
+        self.password = os.environ.get("PASSWORD")
 
         self._open_sql_connection()
 
@@ -43,7 +43,7 @@ class Database:
         migration_to_push = self.migration_counter + 1
         migration_file = f"db_scripts/migrate_{migration_to_push}.sql"
 
-        run_sql_file(self.cursor, migration_file)
+        run_sql_file(self.cursor, migration_file, accept_empty=False)
         self.migration_counter += 1
 
     def rollback(self):

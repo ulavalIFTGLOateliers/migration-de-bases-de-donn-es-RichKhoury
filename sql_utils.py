@@ -41,7 +41,7 @@ def parse_sql(filename):
     return stmts
 
 
-def run_sql_file(cursor, filename):
+def run_sql_file(cursor, filename, accept_empty=True):
     """
     Executes each statement iteratively from a .sql file.
     The target database is the one specified by your environment variables.
@@ -50,6 +50,9 @@ def run_sql_file(cursor, filename):
     :param filename: the .sql file to execute
     """
     sql_statements = parse_sql(filename)
+
+    if len(sql_statements) == 0 and not accept_empty:
+        raise IOError(f"File '{filename}' is empty.")
 
     for statement in sql_statements:
         cursor.execute(statement)
