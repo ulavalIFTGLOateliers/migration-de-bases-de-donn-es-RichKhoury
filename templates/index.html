@@ -16,6 +16,15 @@
         Contenu de la BD: <button onClick="window.location.reload();">Rafraîchir</button>
     </h2>
 
+    <h2>
+        État du schéma:
+        {% if migration_state == 0 %}
+            initial
+        {% else %}
+            {{migration_state}} migration(s) appliquée(s)
+        {% endif %}
+    </h2>
+
     <div id="db-content">
 
         <table>
@@ -23,7 +32,7 @@
                 <tr>
                     {% for table in tables %}
                         <td>
-                            <h3> Table name: {{ table.name }} </h3>
+                            <h3> Nom de la table: {{ table.name }} </h3>
 
                             <table>
                                 <thead>
@@ -43,6 +52,19 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            <div>
+                                <b>Clé primaire: </b> {{table.primary_key[0]}}
+                            </div>
+                            {% if table.foreign_keys|length > 0 %}
+                                <div>
+                                    <b>Clés étrangères: </b>
+                                    {% for foreign_key in table.foreign_keys %}
+
+                                    <div>{{foreign_key.column_name}} --> {{foreign_key.referenced_table_name}}.{{foreign_key.referenced_column_name}}</div>
+
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </td>
 
                     {% endfor %}

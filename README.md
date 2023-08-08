@@ -74,6 +74,71 @@ Vous devez ajouter les 5 variables d'environnement suivantes, nommées exactemen
 - PASSWORD: votre mot de passe
 
 
+**ATTENTION! Votre fichier .env vous est unique. Il ne doit pas être ajouté au repo Git, car cela constituerait la même faille de sécurité que d'écrire vos identifiants directement dans le code!**
+
+
 ### Récupérer des variables d'environnement
 
-Maintenant que vos variables sont bien créées, il faut indiquer à notre programme 
+Maintenant que vos variables sont bien créées, il faut les récupérer dans le code de notre application. En Python, il est possible de récupérer une variable d'environnement grâce à la fonction *get()* du module *os.environ*:
+```python
+import os 
+
+os.environ.get("NOM DE LA VARIABLE")
+```
+**Remplissez donc les lignes 15 à 19 afin de récupérer les bonnes variables d'environnement telles que vous les avez créées.**
+
+Par défaut, Python va chercher les variables d'environnement dans votre système. Afin de charger les variables contenues dans un fichier **.env**, il suffit d'utiliser la fonction *load_dotenv()* du package **python-dotenv**:
+
+```python
+from dotenv import load_dotenv
+
+load_dotenv()
+```
+**Placez la fonction *load_dotenv()* à la ligne 14, juste avant de récupérer les valeurs.**
+
+
+### Tester le tout
+
+La classe *Database* contient tout le code pour se connecter à la BD et l'initialiser à son schéma initial. Si vous avez bien suivi les étapes précédentes, vous pouvez lancer le serveur en tapant la commande:
+
+```shell
+python server.py
+```
+ou en roulant le fichier directement depuis votre IDE. Puis, naviguez à l'URL 127.0.0.1:5000 dans votre navigateur, cliquez sur le bouton *(Re)créer la BD* puis sur le bouton *Rafraîchir*. Vous devriez voir le schéma de départ de la BD.
+
+
+## Travailler sur une base de données partagée
+
+Maintenant que tous les membres de l'équipe peuvent se connecter à leur instance de BD en roulant le même code, nous allons voir comment apporter des modifications au schéma et aux données afin que tout le monde travaille sur le même état de base de données. **À noter que dans le contexte d'une base de données hébergée dans un cloud distant, les mêmes principent s'appliquent. Les prochaines étapes s'appliqueraient uniquement à la BD distante au lieu de s'appliquer à chaque membre de l'équipe respectivement.**
+
+### Grands principes
+
+Afin que tous les membres de l'équipe puissent travailler sur le même état de base de données, chaque changement d'un état vers un autre doit être programmé et ajouté au Git afin que tous les membres puissent appliquer la modification. Par exemple, dans ce projet, plusieurs fichiers *.sql* sont présents dans le dossier *db_scripts/*. Ceux-ci permettent à tous les membres d'appliquer les mêmes opérations sur la base de données. Par exemple, le fichier *up.sql* permet d'initialiser la BD à son schéma initial. Afin de rouler ce fichier, vous pouvez à tout moment cliquer sur le bouton *(Re)créer la BD* dans l'interface graphique. Le fichier *drop.sql*, quant à lui, sert à effacer tout le contenu de la BD. Les quatre autres fichiers sont vides pour le moment. Vous devrez les compléter dans les prochaines étapes.
+
+## Migration de schéma
+
+Migrer le schéma d'une BD signifie changer les définitions de ses tables. Par exemple, on peut vouloir renommer des attributs, ajouter ou supprimer des colonnes, ajouter des tables, modifier des clés etc. Une migration doit être définie par une suite d'instructions qui peuvent être appliquées au schéma actuel afin de l'amener vers le schéma cible. Dans le contexte d'un travail en équipe, tout changement au schéma de la BD doit être répertorié dans un fichier de migration, afin que tous les membres puissent appliquer les mêmes changements de leur côté. Dans le contexte d'une BD distante, ceci devrait être fait une fois uniquement.
+
+En général, tout changement de schéma doit pouvoir être annulé. C'est ce que l'on appelle une migration arrière, ou *rollback*. En parallèle du fichier de migration, il est important de créer un fichier de *rollback* afin de pouvoir revenir à l'état précédent si cela est nécessaire.
+
+## Empilage de migrations
+
+Grâce à ce processus, il est possible de créer une pile de migrations, c'est-à-dire que plusieurs migrations peuvent être appliquées l'une à la suite de l'autre. En définissant un *rollback* pour chaque migration, il est donc possible de dépiler une migration en appliquant son *rollback*.
+
+
+## Étape 2 - Première migration
+
+### Migration
+
+Vous allez mettre ce processus en pratique. Vous devez migrer le schéma de la base de données de l'état initial vers l'état numéro 1, défini dans [SCHEMA.md](https://github.com/ulaval-atelier-bd/ulaval-atelier-starter-code/blob/master/SCHEMA.md).
+
+Pour ce faire, remplissez le fichier migrate_1.sql avec une suite d'instructions SQL, afin d'obtenir le schéma désiré.
+
+À tout moment, vous pouvez tester votre migration en cliquant sur le bouton *Migrer* dans l'interface. **Attention: une fois une migration appliquée, si vous souhaitez recommencer ou retester, vous devez remettre la BD dans son état initial en cliquant sur le bouton *(Re)créer la BD*, sinon vous tenterez d'appliquer votre migration au nouveau schéma!**
+
+Si vous obtenez une erreur lors de la migration, regardez la console de votre IDE. Une exception a probablement été lancée.
+
+### Rollback
+
+Une fois votre migration réussie, remplissez le fichier *rollback_1.sql* afin de passer du nouvel état post-migration à l'état initial. Attention, l'ordre des opérations SQL peut avoir une importance!
+
