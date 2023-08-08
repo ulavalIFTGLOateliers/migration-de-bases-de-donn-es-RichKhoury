@@ -10,7 +10,7 @@ from sql_utils import run_sql_file
 class Database:
     def __init__(self):
         """
-            Complétez les lignes 20 à 24 afin de récupérer les valeurs des variables d'environnement situées dans votre fichier .env
+            Complétez les lignes 18 à 22 afin de récupérer les valeurs des variables d'environnement situées dans votre fichier .env
         """
 
         load_dotenv()
