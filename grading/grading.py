@@ -1,3 +1,4 @@
+import sys
 from collections import OrderedDict
 
 from database import Database
@@ -297,6 +298,11 @@ class Grader:
                 print(f"    Points: {student_marks} / {test_marks}")
                 print("    ---")
         print(f"Total de points: {total_student_marks} / {total_test_marks}")
+
+        if total_student_marks < total_test_marks:
+            sys.exit(-1)
+
+        sys.exit(0)
 
 
 if __name__ == '__main__':
