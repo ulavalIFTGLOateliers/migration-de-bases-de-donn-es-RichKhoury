@@ -8,14 +8,14 @@ from sql_utils import run_sql_file
 
 
 class Database:
-    def __init__(self, env_path=".env"):
+    def __init__(self):
         """
             Complétez les lignes 20 à 24 afin de récupérer les valeurs des variables d'environnement situées dans votre fichier .env
         """
 
-        dotenv_path = join(dirname(__file__), env_path)
+        # dotenv_path = join(dirname(__file__), env_path)
 
-        load_dotenv(dotenv_path)
+        load_dotenv()
 
         self.host =
         self.port =
