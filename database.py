@@ -1,5 +1,4 @@
 import os
-from os.path import join, dirname
 
 import pymysql
 from dotenv import load_dotenv
