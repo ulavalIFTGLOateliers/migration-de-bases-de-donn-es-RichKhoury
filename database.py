@@ -13,8 +13,6 @@ class Database:
             Complétez les lignes 20 à 24 afin de récupérer les valeurs des variables d'environnement situées dans votre fichier .env
         """
 
-        # dotenv_path = join(dirname(__file__), env_path)
-
         load_dotenv()
 
         self.host =
