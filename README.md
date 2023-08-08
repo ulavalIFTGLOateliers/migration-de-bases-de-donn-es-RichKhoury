@@ -27,6 +27,6 @@ Plusieurs packages Python sont requis pour ce projet. Afin de tous les installer
 pip install -r requirements.txt
 ```
 
-## Mise en situation et présentation du code
+## Mise en situation et structure du code
 
 Ce projet représente une application web simple représentant un domaine musical. L'application comprend un serveur Flask, une interface HTML ainsi qu'une base de données. Cependant, cette base de données n'est pas encore configurée ni connectée au projet. Ceci sera votre première tâche. 
