@@ -135,6 +135,12 @@ Vous allez mettre ce processus en pratique. Vous devez migrer le schéma de la b
 
 Pour ce faire, remplissez le fichier migrate_1.sql avec une suite d'instructions SQL, afin d'obtenir le schéma désiré.
 
+Par exemple, la table *singer* est renommée à *musician*. Vous pouvez faire ceci en écrivant la commande suivante dans le fichier:
+
+```sql
+ALTER TABLE singer RENAME TO musician;
+```
+
 À tout moment, vous pouvez tester votre migration en cliquant sur le bouton *Migrer* dans l'interface. **Attention: une fois une migration appliquée, si vous souhaitez recommencer ou retester, vous devez remettre la BD dans son état initial en cliquant sur le bouton *(Re)créer la BD*, sinon vous tenterez d'appliquer votre migration au nouveau schéma!**
 
 Si vous obtenez une erreur lors de la migration, regardez la console de votre IDE. Une exception a probablement été lancée.

@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS singer (     singerName varchar(50),
                                         PRIMARY KEY(singerName));
 CREATE TABLE IF NOT EXISTS label (      labelName varchar(50),
                                         creation YEAR,
-                                        genre ENUM("rock", "rap", "pop", "classical", "jazz"),
+                                        genre varchar(50),
                                         PRIMARY KEY (labelName));
 CREATE TABLE IF NOT EXISTS album (      albumName varchar(50),
                                         singerName varchar(50),

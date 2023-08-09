@@ -14,7 +14,7 @@
 
 ### label
 
-| **<u>labelName</u>**: varchar(50) | **creation**: YEAR | **genre**: ENUM("rock", "rap", "pop", "classical", "jazz") |
+| **<u>labelName</u>**: varchar(50) | **creation**: YEAR | **genre**: varchar(50) |
 | --- | --- | --- |
 | World Music | 2002 | pop |
 | Dark Matter | 2015 | rock |
@@ -39,7 +39,7 @@ labelName -> label.labelName
 
 ### band
 
-| **<u>bandName</u>**: varchar(50) | **creation**: YEAR | **genre**: ENUM("rock", "rap", "pop", "classical", "jazz") |
+| **<u>bandName</u>**: varchar(50) | **creation**: YEAR | **genre**: varchar(50) |
 | --- | --- | --- |
 | Crazy Duo | 2015 | rock |
 | Luna | 2009 | classical |
@@ -48,7 +48,7 @@ labelName -> label.labelName
 
 ### musician (ancienne table singer)
 
-| **<u>musicianName</u>**: varchar(50) | **firstName**: varchar(50) | **lastName**: varchar(50) | **age**: int | role: ENUM("vocals", "guitar", "bass", "percussion", "violin", "piano", "other") | bandName: varchar(50) |
+| **<u>musicianName</u>**: varchar(50) | **firstName**: varchar(50) | **lastName**: varchar(50) | **age**: int | role: varchar(50) | bandName: varchar(50) |
 | --- | --- | --- | --- | --- | --- |
 | Alina | Darcy | Boles | 32 | vocals | Crazy Duo |
 | Mysterio | Jessie | Chancey | 23 | guitar | Mysterio |
@@ -58,7 +58,7 @@ labelName -> label.labelName
 
 ### label
 
-| **<u>labelName</u>**: varchar(50) | **creation**: YEAR | **genre**: ENUM("rock", "rap", "pop", "classical", "jazz") |
+| **<u>labelName</u>**: varchar(50) | **creation**: YEAR | **genre**: varchar(50) |
 | --- | --- | --- |
 | World Music | 2002 | pop |
 | Dark Matter | 2015 | rock |
@@ -83,7 +83,7 @@ labelName -> label.labelName
 
 ### band
 
-| **<u>bandName</u>**: varchar(50) | **creation**: YEAR | **genre**: ENUM("rock", "rap", "pop", "classical", "jazz") |
+| **<u>bandName</u>**: varchar(50) | **creation**: YEAR | **genre**: varchar(50) |
 | --- | --- | --- |
 | Crazy Duo | 2015 | rock |
 | Luna | 2009 | classical |
@@ -92,7 +92,7 @@ labelName -> label.labelName
 
 ### musician
 
-| **<u>musicianName</u>**: varchar(50) | **firstName**: varchar(50) | **lastName**: varchar(50) | **age**: int | role: ENUM("vocals", "guitar", "bass", "percussion", "violin", "piano", "other") | bandName: varchar(50) |
+| **<u>musicianName</u>**: varchar(50) | **firstName**: varchar(50) | **lastName**: varchar(50) | **age**: int | role: varchar(50) | bandName: varchar(50) |
 | --- | --- | --- | --- | --- | --- |
 | Alina | Darcy | Boles | 32 | vocals | Crazy Duo |
 | Mysterio | Jessie | Chancey | 23 | guitar | Mysterio |
