@@ -21,7 +21,7 @@ La correction finale se fera de manière automatique en utilisant les mêmes tes
 
 ## Prérequis
 
-Vous devez avoir MySQL8 / Oracle et Python installés sur votre machine.
+Vous devez avoir MySQL8 / Oracle SQL et Python installés sur votre machine.
 
 Plusieurs packages Python sont requis pour ce projet. Afin de tous les installer facilement, roulez la commande:
 ```shell
@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 ## Mise en situation et structure du code
 
-Ce projet représente une application web simple représentant un domaine musical. L'application comprend un serveur Flask, une interface HTML ainsi qu'une base de données. Cependant, cette base de données n'est pas encore configurée ni connectée au projet. Ceci sera votre première tâche. Au cours de l'atelier, vous aurez à modifier le fichier *database.py* ainsi que les fichiers migrate_*.sql et rollback_*.sql situés dans le dossier *scripts*. Vous n'aurez pas à toucher aux autres fichiers, cependant vous pouvez vous référer à [DOCUMENTATION.md](https://github.com/ulaval-atelier-bd/ulaval-atelier-starter-code/blob/master/DOCUMENTATION.md) pour en connaître leur utilité. Le schéma initial de la base de données ainsi que les schémas cibles vers lesquels vous aurez à migrer sont illustrés dans le fichier [SCHEMA.md](https://github.com/ulaval-atelier-bd/ulaval-atelier-starter-code/blob/master/SCHEMA.md).
+Ce projet représente une application web simple représentant un domaine musical. L'application comprend un serveur Flask, une interface HTML ainsi qu'une base de données. Cependant, cette base de données n'est pas encore configurée ni connectée au projet. Ceci sera votre première tâche. Au cours de l'atelier, vous aurez à modifier le fichier *database.py* ainsi que les fichiers migrate_.sql et rollback_.sql situés dans le dossier *scripts/*. Vous n'aurez pas à modifier les autres fichiers. Le schéma initial de la base de données ainsi que les schémas cibles vers lesquels vous aurez à migrer sont illustrés dans le fichier [SCHEMA.md](https://github.com/ulaval-atelier-bd/ulaval-atelier-starter-code/blob/master/SCHEMA.md).
 
 Afin de rouler l'application web, il suffit de rouler le script *server.py*:
 ```shell
@@ -42,13 +42,13 @@ Une fois le serveur lancé, ouvrez votre navigateur et dirigez vous vers l'URL 1
 
 ## Étape 1 - Configurer votre environnement de travail
 
-Le but de cette étape est de comprendre comment travailler sur une même base de données en équipe. Cet atelier s'effectue sur une base de données hébergée en local sur votre machine, cependant les principes restes les mêmes pour une base de données hébergée sur un cloud.
+Le but de cette étape est de comprendre comment travailler sur une même base de données en équipe. Cet atelier s'effectue sur une base de données hébergée en local sur votre machine, cependant les principes restent les mêmes pour une base de données hébergée sur un cloud.
 
-Lorsque vous travaillez en équipe sur une base de code partagée, vous utilisez un système de gestion du versionnage tel que *git*. Dans un tel projet, le code servant d'interface vers la BD est commun à tous. Dans le cas de cet atelier, ce code se trouve dans la classe **Database** dans le dossier *database.py*. Cependant, puisque chaque membre de l'équipe héberge sa propre version de la base de données en local sur sa machine, il est impossible d'écrire les informations de connexion directement dans le code, puisque celles-ci diffèrent pour chaque machine. De plus, ceci constituerait une faille de sécurité car n'importe qui ayant accès au repo Github pourrait lire les identifiants de connexion. Comment procéder?
+Lorsque vous travaillez en équipe sur une base de code partagée, vous utilisez un système de gestion du versionnage tel que *Git*. Dans un tel projet, le code servant d'interface vers la BD est commun à tous. Dans le cas de cet atelier, ce code se trouve dans la classe **Database** dans le dossier *database.py*. Cependant, puisque chaque membre de l'équipe héberge sa propre version de la base de données en local sur sa machine, il est impossible d'écrire les informations de connexion directement dans le code, puisque celles-ci diffèrent pour chaque machine. De plus, ceci constituerait une faille de sécurité car n'importe qui ayant accès au repo Github pourrait lire les identifiants de connexion. Comment procéder?
 
 ### Utiliser des variables d'environnement
 
-La solution à ce problème est d'utiliser des variables d'environnement. Celles-ci sont des variables externes au programme, dont les valeurs peuvent être récupérer au moment de l'exécution du programme. Chaque membre de l'équipe aura donc ses propres variables d'environnement contenant les informations de connexion à leur BD locale.
+La solution à ce problème est d'utiliser des variables d'environnement. Celles-ci sont des variables externes au programme, dont les valeurs peuvent être récupérées au moment de l'exécution du programme. Chaque membre de l'équipe aura donc ses propres variables d'environnement contenant les informations de connexion à leur BD locale.
 
 Pour commencer, vous devez créer une nouvelle base de données nommée *atelier_bd* sur votre serveur SQL local:
 ```sql
@@ -75,7 +75,7 @@ Vous devez ajouter les 5 variables d'environnement suivantes, nommées exactemen
 - PASSWORD: votre mot de passe
 
 
-**ATTENTION! Votre fichier .env vous est unique. Il ne doit pas être ajouté au repo Git, car cela constituerait la même faille de sécurité que d'écrire vos identifiants directement dans le code!**
+**ATTENTION! Votre fichier .env vous est unique. Il ne doit pas être ajouté au repo Git, car cela constituerait la même faille de sécurité que d'écrire vos identifiants directement dans le code!** Pour que Git ignore ce fichier, il suffit de l'ajouter dans le fichier *.gitignore*. Dans cet atelier, ceci est déjà fait pour vous.
 
 
 ### Récupérer des variables d'environnement
@@ -107,10 +107,14 @@ python server.py
 ```
 ou en roulant le fichier directement depuis votre IDE. Puis, naviguez à l'URL 127.0.0.1:5000 dans votre navigateur, cliquez sur le bouton *(Re)créer la BD* puis sur le bouton *Rafraîchir*. Vous devriez voir le schéma de départ de la BD.
 
+Si vous souhaitez voir les instructions exactes de mise en route de la BD, référez-vous au fichier *db_scripts/up.sql*.
+
 
 ## Travailler sur une base de données partagée
 
-Maintenant que tous les membres de l'équipe peuvent se connecter à leur instance de BD en roulant le même code, nous allons voir comment apporter des modifications au schéma et aux données afin que tout le monde travaille sur le même état de base de données. **À noter que dans le contexte d'une base de données hébergée dans un cloud distant, les mêmes principent s'appliquent. Les prochaines étapes s'appliqueraient uniquement à la BD distante au lieu de s'appliquer à chaque membre de l'équipe respectivement.**
+Maintenant que tous les membres de l'équipe peuvent se connecter à leur instance de BD en roulant le même code, nous allons voir comment apporter des modifications au schéma et aux données afin que tout le monde travaille sur le même état de base de données.
+
+**À noter que dans le contexte d'une base de données hébergée dans un cloud distant, les mêmes principent s'appliquent. Les prochaines étapes s'appliqueraient uniquement à la BD distante au lieu de s'appliquer à chaque membre de l'équipe respectivement.**
 
 ### Grands principes
 
@@ -149,3 +153,44 @@ Si vous obtenez une erreur lors de la migration, regardez la console de votre ID
 
 Une fois votre migration réussie, remplissez le fichier *rollback_1.sql* afin de passer du nouvel état post-migration à l'état initial. Attention, l'ordre des opérations SQL peut avoir une importance!
 
+À chaque test de rollback, assurez-vous de remettre la BD à l'état initial et de ré-appliquer votre migration 1, afin d'être sûr de travailler sur un état propre.
+
+
+### Tester
+
+Si vous avez bien rempli les deux fichiers, le script de correction devrait afficher que les tests des états *up, migration_1, after_migration_1, rollback_1* et *after_rollback_1* sont tous réussis.
+
+## Étape 3 - Deuxième migration
+
+### Migration
+
+Ici, vous devez effectuer le même travail, mais avec le schéma cible **migration 2**. Vous devez donc remplir le fichier *migrate_2.sql* afin de faire passer la BD de l'état post-migration 1 à l'état souhaîté décrit dans [SCHEMA.md](https://github.com/ulaval-atelier-bd/ulaval-atelier-starter-code/blob/master/SCHEMA.md).
+
+**Attention**: Dans le schéma cible, certaines clés étrangères sont supprimées et d'autres ajoutées. Pour ajouter une clé étrangère à une table, utilisez la syntaxe suivante:
+```sql
+ALTER TABLE a ADD CONSTRAINT name_of_constraint FOREIGN KEY (attribute1) REFERENCES b (attribute2);
+```
+Il est important de nommer chaque contrainte que vous créez, car c'est à partir de son nom que vous pourrez la supprimer ainsi:
+```sql
+ALTER TABLE a DROP CONSTRAINT name_of_constraint;
+```
+
+Pour afficher le nom des contraintes initiales de la BD, référez-vous au fichier *up.sql*.
+
+
+### Rollback
+
+Finalement, tel qu'à l'étape 2, vous devez remplir le fichier *rollback.sql* afin de pouvoir faire passer la BD de l'état post-migration 2 à l'état précédent (c'est-à-dire l'état post-migration 1).
+
+Faites bien attention aux nouvelles contraintes de clés étrangères que vous avez créées!
+
+
+## Effectuer une soumission
+
+Lorsque vous souhaitez effectuer une soumission, il vous suffit de créer un commit et de *push* votre branche master:
+
+```shell
+git add -A
+git commit -m "Message de commit"
+git push origin master
+```
