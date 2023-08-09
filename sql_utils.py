@@ -3,10 +3,10 @@ import os
 
 def parse_sql(filename):
     """
-    Parses a .sql file and returns statements in a list of strings
+    Lit un fichier .sql et retourne chaque instruction dans une liste de chaînes de caractères
 
-    :param filename: the .sql file to be parsed
-    :return: list of statements
+    :param filename: le fichier .sql
+    :return: liste d'instructions
     """
 
     current_dir = os.path.dirname(__file__)
@@ -28,7 +28,7 @@ def parse_sql(filename):
             DELIMITER = line.split()[1]
             continue
 
-        if (DELIMITER not in line):
+        if DELIMITER not in line:
             stmt += line.replace(DELIMITER, ';')
             continue
 
@@ -43,11 +43,11 @@ def parse_sql(filename):
 
 def run_sql_file(cursor, filename, accept_empty=True):
     """
-    Executes each statement iteratively from a .sql file.
-    The target database is the one specified by your environment variables.
+    Exécute chaque instruction d'un fichier .sql
 
-    :param cursor: an open pymysql.cursor
-    :param filename: the .sql file to execute
+    :param cursor: un curseur pymysql.cursor ouvert
+    :param filename: le fichier .sql à exécuter
+    :param accept_empty: si vrai, lance une exception si le fichier est vide
     """
     sql_statements = parse_sql(filename)
 
