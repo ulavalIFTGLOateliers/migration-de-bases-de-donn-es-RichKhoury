@@ -11,9 +11,10 @@ L'atelier aborde deux sujets:
 
 ## Déroulement et correction
 
-Ce document vous indique étape par étape les tâches à réaliser. À tout moment, vous pouvez rouler le script *grading.py* se situant dans le dossier *grading/* afin d'avoir un apperçu du nombre de tests qui réussissent ou qui échouent. Afin de rouler le fichier, il suffit de taper la commande:
+Ce document vous indique étape par étape les tâches à réaliser. À tout moment, vous pouvez rouler le script *grading.py* se situant dans le dossier *grading/* afin d'avoir un apperçu du nombre de tests qui réussissent ou qui échouent.
+Afin de lancer le script, il suffit de rouler le main() du fichier, ou naviguer dans le dossier *grading/* et taper la commande:
 ```shell
-python grading/grading.py
+python grading.py
 ```
 
 La correction finale se fera de manière automatique en utilisant les mêmes tests que ceux du script *grading.py*. Vous pouvez donc vous fier à ce script pour savoir si votre code fonctionne ou non.
