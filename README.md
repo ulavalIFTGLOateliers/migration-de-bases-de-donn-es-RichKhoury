@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 ## Mise en situation et structure du code
 
-Ce projet représente une application web simple représentant un domaine musical. L'application comprend un serveur Flask, une interface HTML ainsi qu'une base de données. Cependant, cette base de données n'est pas encore configurée ni connectée au projet. Ceci sera votre première tâche. Au cours de l'atelier, vous aurez à modifier le fichier *database.py* ainsi que les fichiers migrate_.sql et rollback_.sql situés dans le dossier *scripts/*. Vous n'aurez pas à modifier les autres fichiers. Le schéma initial de la base de données ainsi que les schémas cibles vers lesquels vous aurez à migrer sont illustrés dans le fichier [SCHEMA.md](https://github.com/ulaval-atelier-bd/ulaval-atelier-starter-code/blob/master/SCHEMA.md).
+Ce projet représente une application web simple représentant un domaine musical. L'application comprend un serveur Flask, une interface HTML ainsi qu'une base de données. Cependant, cette base de données n'est pas encore configurée ni connectée au projet. Ceci sera votre première tâche. Au cours de l'atelier, vous aurez à modifier le fichier *database.py* ainsi que les fichiers migrate_.sql et rollback_.sql situés dans le dossier *scripts/*. Vous n'aurez pas à modifier les autres fichiers. Le schéma initial de la base de données ainsi que les schémas cibles vers lesquels vous aurez à migrer sont illustrés dans le fichier [SCHEMA.md](SCHEMA.md).
 
 Afin de rouler l'application web, il suffit de rouler le script *server.py*:
 ```shell
@@ -135,7 +135,7 @@ Grâce à ce processus, il est possible de créer une pile de migrations, c'est-
 
 ### Migration
 
-Vous allez mettre ce processus en pratique. Vous devez migrer le schéma de la base de données de l'état initial vers l'état numéro 1, défini dans [SCHEMA.md](https://github.com/ulaval-atelier-bd/ulaval-atelier-starter-code/blob/master/SCHEMA.md).
+Vous allez mettre ce processus en pratique. Vous devez migrer le schéma de la base de données de l'état initial vers l'état numéro 1, défini dans [SCHEMA.md](SCHEMA.md).
 
 Pour ce faire, remplissez le fichier migrate_1.sql avec une suite d'instructions SQL, afin d'obtenir le schéma désiré.
 
@@ -164,7 +164,7 @@ Si vous avez bien rempli les deux fichiers, le script de correction devrait affi
 
 ### Migration
 
-Ici, vous devez effectuer le même travail, mais avec le schéma cible **migration 2**. Vous devez donc remplir le fichier *migrate_2.sql* afin de faire passer la BD de l'état post-migration 1 à l'état souhaîté décrit dans [SCHEMA.md](https://github.com/ulaval-atelier-bd/ulaval-atelier-starter-code/blob/master/SCHEMA.md).
+Ici, vous devez effectuer le même travail, mais avec le schéma cible **migration 2**. Vous devez donc remplir le fichier *migrate_2.sql* afin de faire passer la BD de l'état post-migration 1 à l'état souhaîté décrit dans [SCHEMA.md](SCHEMA.md).
 
 **Attention**: Dans le schéma cible, certaines clés étrangères sont supprimées et d'autres ajoutées. Pour ajouter une clé étrangère à une table, utilisez la syntaxe suivante:
 ```sql
