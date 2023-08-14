@@ -11,8 +11,8 @@ L'atelier aborde deux sujets:
 
 ## Déroulement et correction
 
-Ce document vous indique étape par étape les tâches à réaliser. À tout moment, vous pouvez rouler le script *grading.py* se situant dans le dossier *grading/* afin d'avoir un apperçu du nombre de tests qui réussissent ou qui échouent.
-Afin de lancer le script, il suffit de rouler le main() du fichier, ou naviguer dans le dossier *grading/* et taper la commande:
+Ce document vous indique étape par étape les tâches à réaliser. À tout moment, vous pouvez rouler le script *grading.py* afin d'avoir un apperçu du nombre de tests qui réussissent ou qui échouent.
+Afin de lancer le script, il suffit de rouler le main() du fichier, ou de taper la commande:
 ```shell
 python grading.py
 ```
@@ -21,7 +21,7 @@ La correction finale se fera de manière automatique en utilisant les mêmes tes
 
 ## Prérequis
 
-Vous devez avoir MySQL8 / Oracle SQL et Python installés sur votre machine.
+Vous devez avoir [MySQL8](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/) / [Oracle SQL](https://docs.oracle.com/cd/E39885_01/doc.40/e38928/install.htm#RPTIG100) et Python installés sur votre machine.
 
 Plusieurs packages Python sont requis pour ce projet. Afin de tous les installer facilement, roulez la commande:
 ```shell
@@ -32,13 +32,6 @@ pip install -r requirements.txt
 
 Ce projet représente une application web simple représentant un domaine musical. L'application comprend un serveur Flask, une interface HTML ainsi qu'une base de données. Cependant, cette base de données n'est pas encore configurée ni connectée au projet. Ceci sera votre première tâche. Au cours de l'atelier, vous aurez à modifier le fichier *database.py* ainsi que les fichiers migrate_.sql et rollback_.sql situés dans le dossier *scripts/*. Vous n'aurez pas à modifier les autres fichiers. Le schéma initial de la base de données ainsi que les schémas cibles vers lesquels vous aurez à migrer sont illustrés dans le fichier [SCHEMA.md](SCHEMA.md).
 
-Afin de rouler l'application web, il suffit de rouler le script *server.py*:
-```shell
-python server.py
-```
-**Attention: cette commande ne fonctionnera pas tant que vous n'aurez pas complété l'étape 1.**
-
-Une fois le serveur lancé, ouvrez votre navigateur et dirigez vous vers l'URL 127.0.0.1:5000 afin d'afficher l'interface graphique.
 
 ## Étape 1 - Configurer votre environnement de travail
 
@@ -86,7 +79,7 @@ import os
 
 os.environ.get("NOM DE LA VARIABLE")
 ```
-**Remplissez donc les lignes 15 à 19 afin de récupérer les bonnes variables d'environnement telles que vous les avez créées.**
+**Remplissez donc les lignes 15 à 19 afin de récupérer les bonnes variables d'environnement telles que vous les avez créées. Attention: la fonction *os.environ.get()* retourne une *string*. Cependant, certaines variables telles que le PORT doivent être un *int*. Vous aurez donc une petite opération à effectuer.**
 
 Par défaut, Python va chercher les variables d'environnement dans votre système. Afin de charger les variables contenues dans un fichier **.env**, il suffit d'utiliser la fonction *load_dotenv()* du package **python-dotenv**:
 
