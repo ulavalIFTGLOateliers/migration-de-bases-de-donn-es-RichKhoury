@@ -1,5 +1,10 @@
 # Schémas des différents états de la BD
 
+Les attributs soulignés sont les clés primaires.
+
+Les clés étrangères sont indiquées sous les tables. Soit une table **X** dont l'attribut **a** est une clé étrangère vers l'attribut **b** de la table **Y**:
+a -> Y.b
+
 ## État initial
 
 ### singer
@@ -99,7 +104,7 @@ labelName -> label.labelName
 | Rainbow | Sarah | Derrick | 47 | percussion | Crazy Duo |
 | Luna | Emily | Seibold | 31 | piano | Luna |
 
-band -> band.bandName
+bandName -> band.bandName
 
 
 ### label
