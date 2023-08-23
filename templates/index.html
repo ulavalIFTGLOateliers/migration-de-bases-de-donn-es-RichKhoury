@@ -31,10 +31,10 @@
             <tbody>
                 <tr>
                     {% for table in tables %}
-                        <td>
+                        <td class="layout-column">
                             <h3> Nom de la table: {{ table.name }} </h3>
 
-                            <table>
+                            <table class="styled-table">
                                 <thead>
                                     <tr>
                                         {% for column in table.columns %}
