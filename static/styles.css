@@ -2,6 +2,11 @@ body {
     font-family: "Candara";
 }
 
+.full-width {
+    width: 100%;
+    text-align: center;
+}
+
 .styled-table {
     border-collapse: collapse;
     margin: 25px 0;
@@ -9,6 +14,7 @@ body {
     font-family: sans-serif;
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 100%
 }
 
 .styled-table thead tr {
@@ -37,6 +43,7 @@ body {
 .layout-column {
     padding: 0px 20px;
     vertical-align: top;
+    text-align: center;
 }
 
 .actions-table {
