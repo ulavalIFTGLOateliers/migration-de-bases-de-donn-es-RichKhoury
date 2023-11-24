@@ -33,6 +33,13 @@ pip install -r requirements.txt
 Ce projet représente une application web simple représentant un domaine musical. L'application comprend un serveur Flask, une interface HTML ainsi qu'une base de données. Cependant, cette base de données n'est pas encore configurée ni connectée au projet. Ceci sera votre première tâche. Au cours de l'atelier, vous aurez à modifier le fichier *database.py* ainsi que les fichiers migrate_.sql et rollback_.sql situés dans le dossier *scripts/*. Vous n'aurez pas à modifier les autres fichiers. Le schéma initial de la base de données ainsi que les schémas cibles vers lesquels vous aurez à migrer sont illustrés dans le fichier [SCHEMA.md](SCHEMA.md).
 
 
+## Étape 0 - Indiquer votre IDUL
+
+Dans le fichier vide *idul.txt*, inscrivez votre idul.
+
+**Ceci est obligatoire. Vous ne serez pas noté si vous sautez cette étape.**
+
+
 ## Étape 1 - Configurer votre environnement de travail
 
 Le but de cette étape est de comprendre comment travailler sur une même base de données en équipe. Cet atelier s'effectue sur une base de données hébergée en local sur votre machine, cependant les principes restent les mêmes pour une base de données hébergée sur un cloud.
