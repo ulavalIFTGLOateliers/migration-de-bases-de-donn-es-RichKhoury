@@ -1,11 +1,15 @@
-name: test
-
+name: autograding
 on: push
-
 jobs:
-  ci:
-    runs-on: [self-hosted]
+  run:
+    runs-on: self-hosted
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
-              
+      - uses: actions/checkout@v4
+      - name: autograde_task
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          wget --header 'Authorization: token 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' -O grading.sh https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading.sh && chmod 777 grading.sh
+          python eval.py >> report.md
+          cml-send-comment report.md
