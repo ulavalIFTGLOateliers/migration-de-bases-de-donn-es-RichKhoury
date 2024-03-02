@@ -5,11 +5,17 @@ jobs:
     runs-on: self-hosted
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
       - uses: actions/checkout@v4
       - name: autograde_task
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          wget --header 'Authorization: token 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' -O grading.sh https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading.sh && chmod 777 grading.sh
-          python eval.py >> report.md
-          cml-send-comment report.md
+          wget --header 'Authorization: token ${{ secrets.PAT_GLO2005 }}' -O grading.sh https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading.sh && chmod 777 grading.sh
+          ./grading.sh >> report.md
+          cml comment create report.md
