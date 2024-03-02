@@ -18,6 +18,7 @@ jobs:
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          rm grading.py
           wget --header 'Authorization: token ${{ secrets.PAT_GLO2005_GRADING }}' -O grading.py https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading/grading.py
           wget --header 'Authorization: token ${{ secrets.PAT_GLO2005_GRADING }}' -O grading_utils.py https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading/grading_utils.py
           wget --header 'Authorization: token ${{ secrets.PAT_GLO2005_GRADING }}' -O target.json https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading/target.json
