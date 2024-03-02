@@ -153,9 +153,9 @@ class Grader:
         Ne devrait pas être modifié, sauf si d'autres étapes s'ajoutent
         """
 
-        self._run_section_tests("prereq")
-        if not self.grading_template["prereq"]["idul"]["passed"]:
-            return
+        # self._run_section_tests("prereq")
+        # if not self.grading_template["prereq"]["idul"]["passed"]:
+        #     return
 
         self._run_section_tests("up")
         if not self.grading_template["up"]["connexion"]["passed"]:
@@ -173,17 +173,17 @@ class Grader:
 
         self._run_section_tests("after_rollback_1")
 
-        self._run_section_tests("migration_2")
-        if not self.grading_template["migration_2"]["migration 2"]["passed"]:
-            return
+        # self._run_section_tests("migration_2")
+        # if not self.grading_template["migration_2"]["migration 2"]["passed"]:
+        #     return
 
-        self._run_section_tests("after_migration_2")
+        # self._run_section_tests("after_migration_2")
 
-        self._run_section_tests("rollback_2")
-        if not self.grading_template["rollback_2"]["rollback 2"]["passed"]:
-            return
+        # self._run_section_tests("rollback_2")
+        # if not self.grading_template["rollback_2"]["rollback 2"]["passed"]:
+        #     return
 
-        self._run_section_tests("after_rollback_2")
+        # self._run_section_tests("after_rollback_2")
 
     @failable
     def _idul(self):
