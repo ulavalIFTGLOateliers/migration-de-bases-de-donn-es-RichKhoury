@@ -20,6 +20,8 @@ class Database:
         self.user = os.environ.get("USER")
         self.password = os.environ.get("PASSWORD")
 
+        print(f"Database: {self.database}, host: {self.host}, port: {self.port}")
+
         self._open_sql_connection()
 
         self.migration_counter = 0
