@@ -1,5 +1,7 @@
 name: autograding
 on: push
+env:
+  pat_correction: ${{ secrets.PAT_GLO2005 }}
 jobs:
   run:
     runs-on: self-hosted
