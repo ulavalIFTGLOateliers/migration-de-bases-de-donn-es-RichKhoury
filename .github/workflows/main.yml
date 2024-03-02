@@ -23,5 +23,6 @@ jobs:
           wget --header 'Authorization: token ${{ secrets.PAT_GLO2005_GRADING }}' -O target.json https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading/target.json
           wget --header 'Authorization: token ${{ secrets.PAT_GLO2005_GRADING }}' -O .env https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/.env
           pip install -r requirements.txt
+          echo "done"
           python grading.py >> report.md
           cml comment create report.md
