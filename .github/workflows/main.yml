@@ -1,7 +1,7 @@
 name: autograding
 on: push
 env:
-  pat_correction: ${{ secrets.PAT_GLO2005 }}
+  pat_correction: ${{ secrets.PAT_GLO2005_GRADING }}
 jobs:
   run:
     runs-on: self-hosted
@@ -18,6 +18,6 @@ jobs:
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          wget --header 'Authorization: token ${{ secrets.PAT_GLO2005 }}' -O grading.sh https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading.sh && chmod 777 grading.sh
+          wget --header 'Authorization: token ${{ secrets.PAT_GLO2005_GRADING }}' -O grading.sh https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading.sh && chmod 777 grading.sh
           ./grading.sh >> report.md
           cml comment create report.md
