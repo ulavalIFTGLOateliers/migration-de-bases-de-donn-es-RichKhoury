@@ -18,7 +18,6 @@ jobs:
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo $pat_correction
           wget --header 'Authorization: token ${{ secrets.PAT_GLO2005 }}' -O grading.sh https://raw.githubusercontent.com/ulavalIFTGLOateliers/IFT2004-GLO2005-Migration-Correction/master/grading.sh && chmod 777 grading.sh
           ./grading.sh >> report.md
           cml comment create report.md
