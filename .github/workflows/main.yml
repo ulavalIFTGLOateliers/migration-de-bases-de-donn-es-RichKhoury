@@ -8,14 +8,14 @@ jobs:
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         env:
           MYSQL_DATABASE: ${{ secrets.DATABASE }}
           MYSQL_USER: ${{ secrets.USER }}
           MYSQL_PASSWORD: ${{ secrets.PASSWORD }}
           MYSQL_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
         ports:
-          - 3306
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/setup-node@v2
