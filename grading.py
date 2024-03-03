@@ -32,13 +32,13 @@ class Grader:
         """
 
         self.grading_template = OrderedDict({
-            "prereq": {
-                "idul": {
-                    "callable": self._idul,
-                    "points": 1,
-                    "passed": False
-                }
-            },
+            # "prereq": {
+            #     "idul": {
+            #         "callable": self._idul,
+            #         "points": 1,
+            #         "passed": False
+            #     }
+            # },
             "up": {
                 "connexion": {
                     "callable": self._up,
@@ -94,54 +94,54 @@ class Grader:
                     "passed": False
                 }
             },
-            "migration_2": {
-                "migration 2": {
-                    "callable": self._migration_2,
-                    "points": 1,
-                    "passed": False
-                }
-            },
-            "after_migration_2": {
-                "schema des tables": {
-                    "callable": self._check_state_schema("after_migration_2"),
-                    "points": 1,
-                    "passed": False
-                },
-                "contenu des tables": {
-                    "callable": self._check_state_content("after_migration_2"),
-                    "points": 1,
-                    "passed": False
-                },
-                "clés": {
-                    "callable": self._check_state_keys("after_migration_2"),
-                    "points": 1,
-                    "passed": False
-                }
-            },
-            "rollback_2": {
-                "rollback 2": {
-                    "callable": self._rollback_2,
-                    "points": 1,
-                    "passed": False
-                }
-            },
-            "after_rollback_2": {
-                "schema des tables": {
-                    "callable": self._check_state_schema("after_migration_1"),
-                    "points": 1,
-                    "passed": False
-                },
-                "contenu des tables": {
-                    "callable": self._check_state_content("after_migration_1"),
-                    "points": 1,
-                    "passed": False
-                },
-                "clés": {
-                    "callable": self._check_state_keys("after_migration_1"),
-                    "points": 1,
-                    "passed": False
-                }
-            }
+            # "migration_2": {
+            #     "migration 2": {
+            #         "callable": self._migration_2,
+            #         "points": 1,
+            #         "passed": False
+            #     }
+            # },
+            # "after_migration_2": {
+            #     "schema des tables": {
+            #         "callable": self._check_state_schema("after_migration_2"),
+            #         "points": 1,
+            #         "passed": False
+            #     },
+            #     "contenu des tables": {
+            #         "callable": self._check_state_content("after_migration_2"),
+            #         "points": 1,
+            #         "passed": False
+            #     },
+            #     "clés": {
+            #         "callable": self._check_state_keys("after_migration_2"),
+            #         "points": 1,
+            #         "passed": False
+            #     }
+            # },
+            # "rollback_2": {
+            #     "rollback 2": {
+            #         "callable": self._rollback_2,
+            #         "points": 1,
+            #         "passed": False
+            #     }
+            # },
+            # "after_rollback_2": {
+            #     "schema des tables": {
+            #         "callable": self._check_state_schema("after_migration_1"),
+            #         "points": 1,
+            #         "passed": False
+            #     },
+            #     "contenu des tables": {
+            #         "callable": self._check_state_content("after_migration_1"),
+            #         "points": 1,
+            #         "passed": False
+            #     },
+            #     "clés": {
+            #         "callable": self._check_state_keys("after_migration_1"),
+            #         "points": 1,
+            #         "passed": False
+            #     }
+            # }
         })
 
         self.target_states = load_db_states_from_json()

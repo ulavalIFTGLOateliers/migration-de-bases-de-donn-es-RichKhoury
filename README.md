@@ -21,7 +21,7 @@ La correction finale se fera de manière automatique en utilisant les mêmes tes
 
 ## Prérequis
 
-Vous devez avoir [MySQL8](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/) / [Oracle SQL](https://docs.oracle.com/cd/E39885_01/doc.40/e38928/install.htm#RPTIG100) et Python installés sur votre machine.
+Vous devez avoir [MySQL8](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/) et Python installés sur votre machine.
 
 Plusieurs packages Python sont requis pour ce projet. Afin de tous les installer facilement, roulez la commande:
 ```shell
@@ -31,13 +31,6 @@ pip install -r requirements.txt
 ## Mise en situation et structure du code
 
 Ce projet représente une application web simple représentant un domaine musical. L'application comprend un serveur Flask, une interface HTML ainsi qu'une base de données. Cependant, cette base de données n'est pas encore configurée ni connectée au projet. Ceci sera votre première tâche. Au cours de l'atelier, vous aurez à modifier le fichier *database.py* ainsi que les fichiers migrate_.sql et rollback_.sql situés dans le dossier *scripts/*. Vous n'aurez pas à modifier les autres fichiers. Le schéma initial de la base de données ainsi que les schémas cibles vers lesquels vous aurez à migrer sont illustrés dans le fichier [SCHEMA.md](SCHEMA.md).
-
-
-## Étape 0 - Indiquer votre IDUL
-
-Dans le fichier vide *idul.txt*, inscrivez votre idul.
-
-**Ceci est obligatoire. Vous ne serez pas noté si vous sautez cette étape.**
 
 
 ## Étape 1 - Configurer votre environnement de travail
@@ -50,7 +43,7 @@ Lorsque vous travaillez en équipe sur une base de code partagée, vous utilisez
 
 La solution à ce problème est d'utiliser des variables d'environnement. Celles-ci sont des variables externes au programme, dont les valeurs peuvent être récupérées au moment de l'exécution du programme. Chaque membre de l'équipe aura donc ses propres variables d'environnement contenant les informations de connexion à leur BD locale.
 
-Pour commencer, vous devez créer une nouvelle base de données nommée *atelier_bd* sur votre serveur SQL local:
+Pour commencer, vous devez créer une nouvelle base de données nommée *atelier_bd* sur votre serveur MySQL local:
 ```sql
 CREATE DATABASE atelier_bd;
 USE atelier_bd;
@@ -69,7 +62,7 @@ VAR2=VALEUR2
 Vous devez ajouter les 5 variables d'environnement suivantes, nommées exactement comme ceci:
 
 - HOST: l'adresse de votre serveur SQL. En local, ceci est 127.0.0.1
-- PORT: le numéro de port de votre serveur SQL. Par défaut, MySQL roule sur le port 3306, et Oracle sur le port 1521
+- PORT: le numéro de port de votre serveur SQL. Par défaut, MySQL roule sur le port 3306
 - DATABASE: le nom de votre BD. Dans notre cas, **atelier_bd**
 - USER: votre nom d'utilisateur pour votre serveur
 - PASSWORD: votre mot de passe
@@ -118,7 +111,7 @@ Maintenant que tous les membres de l'équipe peuvent se connecter à leur instan
 
 ### Grands principes
 
-Afin que tous les membres de l'équipe puissent travailler sur le même état de base de données, chaque changement d'un état vers un autre doit être programmé et ajouté au Git afin que tous les membres puissent appliquer la modification. Par exemple, dans ce projet, plusieurs fichiers *.sql* sont présents dans le dossier *db_scripts/*. Ceux-ci permettent à tous les membres d'appliquer les mêmes opérations sur la base de données. Par exemple, le fichier *up.sql* permet d'initialiser la BD à son schéma initial. Afin de rouler ce fichier, vous pouvez à tout moment cliquer sur le bouton *(Re)créer la BD* dans l'interface graphique. Le fichier *drop.sql*, quant à lui, sert à effacer tout le contenu de la BD. Les quatre autres fichiers sont vides pour le moment. Vous devrez les compléter dans les prochaines étapes.
+Afin que tous les membres de l'équipe puissent travailler sur le même état de base de données, chaque changement d'un état vers un autre doit être programmé et ajouté au Git afin que tous les membres puissent appliquer la modification. Par exemple, dans ce projet, plusieurs fichiers *.sql* sont présents dans le dossier *db_scripts/*. Ceux-ci permettent à tous les membres d'appliquer les mêmes opérations sur la base de données. Par exemple, le fichier *up.sql* permet d'initialiser la BD à son schéma initial. Afin de rouler ce fichier, vous pouvez à tout moment cliquer sur le bouton *(Re)créer la BD* dans l'interface graphique. Le fichier *drop.sql*, quant à lui, sert à effacer tout le contenu de la BD. Les deux autres fichiers sont vides pour le moment. Vous devrez les compléter dans les prochaines étapes.
 
 ## Migration de schéma
 
@@ -159,30 +152,6 @@ Une fois votre migration réussie, remplissez le fichier *rollback_1.sql* afin d
 ### Tester
 
 Si vous avez bien rempli les deux fichiers, le script de correction devrait afficher que les tests des états *up, migration_1, after_migration_1, rollback_1* et *after_rollback_1* sont tous réussis.
-
-## Étape 3 - Deuxième migration
-
-### Migration
-
-Ici, vous devez effectuer le même travail, mais avec le schéma cible **migration 2**. Vous devez donc remplir le fichier *migrate_2.sql* afin de faire passer la BD de l'état post-migration 1 à l'état souhaîté décrit dans [SCHEMA.md](SCHEMA.md).
-
-**Attention**: Dans le schéma cible, certaines clés étrangères sont supprimées et d'autres ajoutées. Pour ajouter une clé étrangère à une table, utilisez la syntaxe suivante:
-```sql
-ALTER TABLE a ADD CONSTRAINT name_of_constraint FOREIGN KEY (attribute1) REFERENCES b (attribute2);
-```
-Il est important de nommer chaque contrainte que vous créez, car c'est à partir de son nom que vous pourrez la supprimer ainsi:
-```sql
-ALTER TABLE a DROP CONSTRAINT name_of_constraint;
-```
-
-Pour afficher le nom des contraintes initiales de la BD, référez-vous au fichier *up.sql*.
-
-
-### Rollback
-
-Finalement, tel qu'à l'étape 2, vous devez remplir le fichier *rollback.sql* afin de pouvoir faire passer la BD de l'état post-migration 2 à l'état précédent (c'est-à-dire l'état post-migration 1).
-
-Faites bien attention aux nouvelles contraintes de clés étrangères que vous avez créées!
 
 
 ## Effectuer une soumission
